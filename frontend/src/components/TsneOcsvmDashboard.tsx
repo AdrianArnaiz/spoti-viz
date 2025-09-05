@@ -1,4 +1,3 @@
-\
 import { useEffect, useMemo, useState } from 'react'
 import ControlsPanel, { type Params } from './ControlsPanel'
 import ScatterPlot from './Plot'
@@ -9,6 +8,7 @@ export default function TsneOcsvmDashboard({ datasetInfo }: { datasetInfo: any |
   const [metaCols, setMetaCols] = useState<string[]>([])
   const [colorBy, setColorBy] = useState<'inlier' | 'playlist' | 'none'>('inlier')
   const [info, setInfo] = useState<any | null>(null)
+  const [boundary, setBoundary] = useState<any | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -29,6 +29,7 @@ export default function TsneOcsvmDashboard({ datasetInfo }: { datasetInfo: any |
         perplexity_used: res.data.perplexity_used,
         ocsvm_params: res.data.ocsvm_params
       })
+      setBoundary(res.data.boundary || null)
     } catch (err: any) {
       setError(err?.response?.data?.detail || err.message)
     }
@@ -59,7 +60,7 @@ export default function TsneOcsvmDashboard({ datasetInfo }: { datasetInfo: any |
         {points.length === 0 ? (
           <div className="p-6 text-center text-slate-400">Run the analysis to see the projection.</div>
         ) : (
-          <ScatterPlot data={points} colorBy={colorBy} metaColumns={metaCols} />
+          <ScatterPlot data={points} colorBy={colorBy} metaColumns={metaCols} boundary={boundary} />
         )}
       </div>
     </div>

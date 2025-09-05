@@ -1,11 +1,11 @@
-
+\
 # Spotify Taste Analysis — Web App
 
 A modern, end‑to‑end web app that turns your Jupyter analysis into an interactive site with:
 
 - **CSV upload**
 - **t‑SNE + One‑Class SVM** projection dashboard (Tab 1)
-- (Placeholders for) **Distributions** and **Playlists** dashboards
+- **Distributions** and **Playlists** dashboards
 - Sleek **React + Tailwind** UI and **Plotly** interactivity
 - **FastAPI** backend for data processing
 
@@ -134,3 +134,16 @@ And visit **http://127.0.0.1:8000**.
 
 - This scaffold is intentionally modular and scalable: the backend holds data in `DataStore`, and the frontend uses composable components.
 - For larger files or multi‑user deployments, swap in a database or object storage and user sessions.
+
+---
+
+### New endpoints
+
+- `POST /api/distributions` — { feature, group_by: "none"|"liked"|"playlist", bins, kde } → histograms (and KDE) per group.
+- `POST /api/playlists/summary` — per-playlist counts and average feature summaries (top playlists).
+- `POST /api/playlists/similarity` — cosine similarity heatmap of playlist mean feature vectors.
+
+### New tabs
+
+- **Distributions:** pick a numeric feature, group by liked/playlist, overlay histograms + KDE.
+- **Playlists:** bar chart of top playlist sizes + similarity heatmap across mean features.

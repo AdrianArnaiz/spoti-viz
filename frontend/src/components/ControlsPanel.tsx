@@ -1,4 +1,3 @@
-\
 import { useState } from 'react'
 
 export type Params = {
@@ -9,6 +8,8 @@ export type Params = {
   gamma: 'scale' | 'auto' | number
   kernel: 'rbf' | 'linear' | 'poly' | 'sigmoid'
   random_state: number | null
+  train_on: 'all' | 'liked_auto'
+  return_boundary: boolean
 }
 
 export default function ControlsPanel({
@@ -19,6 +20,8 @@ export default function ControlsPanel({
   const [perplexity, setPerplexity] = useState(30)
   const [nIter, setNIter] = useState(1000)
   const [nu, setNu] = useState(0.1)
+  const [trainOn, setTrainOn] = useState<'all' | 'liked_auto'>('all')
+  const [showBoundary, setShowBoundary] = useState(true)
   const [gamma, setGamma] = useState<'scale' | 'auto'>('scale')
   const [kernel, setKernel] = useState<'rbf' | 'linear' | 'poly' | 'sigmoid'>('rbf')
   const [busy, setBusy] = useState(false)
@@ -52,6 +55,19 @@ export default function ControlsPanel({
           <option value="poly">poly</option>
           <option value="sigmoid">sigmoid</option>
         </select>
+      
+      <div>
+        <label className="block text-xs text-slate-400">Train OC-SVM on</label>
+        <select value={trainOn} onChange={e => setTrainOn(e.target.value as any)} className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm">
+          <option value="all">All points (notebook)</option>
+          <option value="liked_auto">Liked subset (if detected)</option>
+        </select>
+      </div>
+      <div className="flex items-center gap-2">
+        <input id="boundary" type="checkbox" checked={showBoundary} onChange={e => setShowBoundary(e.target.checked)} />
+        <label htmlFor="boundary" className="text-sm text-slate-300">Show decision boundary</label>
+      </div>
+
       </div>
       <div className="flex items-end">
         <button
@@ -65,7 +81,9 @@ export default function ControlsPanel({
                 nu,
                 gamma,
                 kernel,
-                random_state: 42
+                random_state: 42,
+                train_on: trainOn,
+                return_boundary: showBoundary
               })
             } finally {
               setBusy(false)

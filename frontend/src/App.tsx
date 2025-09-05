@@ -1,8 +1,9 @@
-\
 import { Tab } from '@headlessui/react'
 import { motion } from 'framer-motion'
 import { UploadIcon } from '@heroicons/react/24/outline'
 import TsneOcsvmDashboard from './components/TsneOcsvmDashboard'
+import DistributionsDashboard from './components/DistributionsDashboard'
+import PlaylistsDashboard from './components/PlaylistsDashboard'
 import FileUploader from './components/FileUploader'
 import { useState } from 'react'
 
@@ -84,20 +85,16 @@ export default function App() {
           </Tab.List>
 
           <Tab.Panels>
-            <Tab.Panel>
-              <TsneOcsvmDashboard datasetInfo={datasetInfo} />
-            </Tab.Panel>
-            <Tab.Panel>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 text-slate-300">
-                <p>Coming soon: interactive histograms, KDEs, feature distributions by playlist &amp; liked status.</p>
-              </div>
-            </Tab.Panel>
-            <Tab.Panel>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 text-slate-300">
-                <p>Coming soon: playlist comparisons, similarity heatmaps, and recommendation spots.</p>
-              </div>
-            </Tab.Panel>
-          </Tab.Panels>
+  <Tab.Panel>
+    <TsneOcsvmDashboard datasetInfo={datasetInfo} />
+  </Tab.Panel>
+  <Tab.Panel>
+    <DistributionsDashboard datasetInfo={datasetInfo} />
+  </Tab.Panel>
+  <Tab.Panel>
+    <PlaylistsDashboard datasetInfo={datasetInfo} />
+  </Tab.Panel>
+</Tab.Panels>
         </Tab.Group>
       </main>
     </div>

@@ -1,4 +1,3 @@
-\
 import Plot from 'react-plotly.js'
 
 type Point = {
@@ -13,11 +12,13 @@ type Point = {
 export default function ScatterPlot({
   data,
   colorBy,
-  metaColumns
+  metaColumns,
+  boundary
 }: {
   data: Point[],
   colorBy: 'inlier' | 'playlist' | 'none',
-  metaColumns: string[]
+  metaColumns: string[],
+  boundary?: { x: number[]; y: number[]; z: number[][] } | null
 }) {
   // Split into traces by category
   let traces: any[] = []
@@ -61,6 +62,19 @@ export default function ScatterPlot({
       hoverinfo: 'text',
       marker: { size: 7, opacity: 0.85 },
     }]
+  }
+
+
+  if (boundary && boundary.x && boundary.y && boundary.z) {
+    traces.unshift({
+      type: 'contour',
+      x: boundary.x,
+      y: boundary.y,
+      z: boundary.z,
+      contours: { coloring: 'heatmap' },
+      opacity: 0.35,
+      name: 'OC-SVM score'
+    })
   }
 
   return (
